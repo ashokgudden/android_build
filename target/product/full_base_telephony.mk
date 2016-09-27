@@ -19,5 +19,8 @@
 # build quite specifically for the emulator, and might not be
 # entirely appropriate to inherit from for on-device configurations.
 
+PRODUCT_PROPERTY_OVERRIDES := \
+    net.tethering.noprovisioning=true
+
 $(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/telephony.mk)
