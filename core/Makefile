@@ -2562,17 +2562,15 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) \
 	   $(BUILT_TARGET_FILES_PACKAGE) $@
 
 LINEAGE_TARGET_PACKAGE := $(PRODUCT_OUT)/$(LINEAGE_VERSION).zip
-DELIGHT_BANNER_SH := ./vendor/lineage/tools/delight.sh
-FILE_SIZE := $(ls -lah $(LINEAGE_TARGET_PACKAGE) | cut -d ' ' -f 5)
 
 .PHONY: otapackage bacon
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 bacon: otapackage
 	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(LINEAGE_TARGET_PACKAGE)
 	$(hide) $(MD5SUM) $(LINEAGE_TARGET_PACKAGE) | sed "s|$(PRODUCT_OUT)/||" > $(LINEAGE_TARGET_PACKAGE).md5
-    @echo -e "Delight.zip file size in MB : $(FILE_SIZE)"
 	@echo "Package Complete: $(LINEAGE_TARGET_PACKAGE)" >&2
-	bash $(DELIGHT_BANNER_SH) >> $@
+	$(hide) ./vendor/lineage/tools/delight.sh
+	@echo -e "Delight.zip file size in MB : `ls -lah $(LINEAGE_TARGET_PACKAGE) | cut -d ' ' -f 5`"
 
 endif    # build_ota_package
 
